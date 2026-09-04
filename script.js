@@ -172,7 +172,7 @@ const closeBooking = document.querySelector("#close-booking");
 const bookingModal = document.querySelector("#booking-modal");
 const bookingForm = document.querySelector("#booking-form");
 const whatsappNumber = "5493834698135";
-const apiReservasUrl = "http://localhost:8080/api/reservas";
+const apiReservasUrl = "https://web-unas-tzzh.onrender.com/api/reservas";
 
 function abrirWhatsAppCita({ nombre, telefono, fecha, hora }) {
   const mensaje = `Hola, quiero confirmar mi cita.\nNombre: ${nombre}\nTeléfono: ${telefono}\nFecha: ${fecha}\nHora: ${hora}`;
