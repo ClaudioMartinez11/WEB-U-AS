@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>appointment Page</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+<body>
+    <main class="appointment-page">
+        <img src="avatar.jpg" alt="Perfil" class="img-profile">
+        <h2>UÑAS NOMBRE</h2>
+        <p>UÑAS DESCRIPCIÓN</p>
+
+        <section class="calendar">
+
+    <h4 class="appointment-instruction">
+    Seleccione un mes y día para la cita
+</h4>
+
+<div class="month-picker">
+    <button type="button" class="month-selector">
+        Seleccionar mes <span>⌄</span>
+    </button>
+
+    <div class="months"></div>
+</div>
+
+<div class="date-picker">
+    <button type="button" class="date-selector">
+        Seleccionar día <span>⌄</span>
+    </button>
+
+    <div class="dates"></div>
+</div>
+            <h4>Selecciona un horario</h4>
+            <div class="schedule">
+                <button class="time-btn active">9:00 AM</button>
+                <button class="time-btn">10:00 AM</button>
+                <button class="time-btn">11:00 AM</button>
+                <button class="time-btn">5:00 PM</button>
+                <button class="time-btn">6:00 PM</button>
+                <button class="time-btn">7:00 PM</button>
+                <button class="time-btn">8:00 PM</button>
+                <button class="time-btn">9:00 PM</button>
+                <button class="time-btn">10:00 PM</button>
+            </div>
+
+            <button type="button" class="book-btn" id="open-booking">
+    Reservar Cita
+</button>
+
+            <h4>DATOS EXTRAS</h4>
+            <div class="tabs">
+                <a href="#about" class="tab-link active">ASDAS</a>
+                <a href="#services" class="tab-link">MODELOS</a>
+                <a href="#reviews" class="tab-link">PRECIOS</a>
+            </div>
+
+            <section class="tabs-content">
+                <div id="about" class="tab-panel active">
+                    <p>blablablabla</p>
+                </div>
+
+                <div id="reviews" class="tab-panel">
+                    <ul>
+                        <li>SOFT GEL - $20.000</li>
+                        <li>UÑA PINTADA - $15.000</li>
+                        <li>ACRILICO - $25.000</li>
+                    </ul>
+                </div>
+
+                <div id="services" class="tab-panel">
+                    <ul>
+                        <li><span>💅</span> Tipo de uña 1</li>
+                        <li><span>💅</span> Tipo de uña 2</li>
+                        <li><span>💅</span> Tipo de uña 3</li>
+                        <li><span>💅</span> Tipo de uña 1</li>
+                        <li><span>💅</span> Tipo de uña 2</li>
+                        <li><span>💅</span> Tipo de uña 3</li>
+                        <li><span>💅</span> Tipo de uña 1</li>
+                        <li><span>💅</span> Tipo de uña 2</li>
+                        <li><span>💅</span> Tipo de uña 3</li>
+                    </ul>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <footer class="footer-nav">
+
+<nav class="nav-menu">
+    <a href="https://www.instagram.com/TU_USUARIO/"
+       class="nav-link"
+       target="_blank"
+       rel="noopener noreferrer">
+        <i class="fa-brands fa-instagram"></i>
+        INSTAGRAM
+    </a>
+
+<a href="https://wa.me/5493834698135?text=BUENAS%20TENGO%20UNA%20CONSULTA%20POR%20MIS%20UÑAS"
+   class="nav-link"
+   target="_blank"
+   rel="noopener noreferrer">
+    <i class="fa-brands fa-whatsapp"></i>
+    WHATSAPP
+</a>
+
+    <a href="mailto:tucorreo@ejemplo.com"
+       class="nav-link">
+        <i class="fa-solid fa-envelope"></i>
+        EMAIL
+    </a>
+</nav>
+
+    </footer>
+    
+<div class="booking-modal" id="booking-modal">
+    <div class="booking-box">
+        <button type="button" id="close-booking" class="close-booking"></button>
+
+        <h3>Datos para la cita</h3>
+
+        <form id="booking-form">
+            <label for="client-name">Nombre completo</label>
+            <input type="text" id="client-name" name="name" required>
+
+            <label for="client-phone">Número de teléfono</label>
+            <input
+                type="tel"
+                id="client-phone"
+                name="phone"
+                placeholder="Ej: 11 1234-5678"
+                required
+            >
+
+            <button type="submit" class="confirm-booking">
+                Enviar solicitud
+            </button>
+        </form>
+    </div>
+</div>
+<script src="script.js"></script>
+
+    <script>
+        document.querySelectorAll(".time-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document
+        .querySelectorAll(".time-btn")
+        .forEach((item) => item.classList.remove("active"));
+
+      btn.classList.add("active");
+    });
+  });
+
+  const tabLinks = document.querySelectorAll(".tab-link");
+  const tabPanels = document.querySelectorAll(".tab-panel");
+
+  tabLinks.forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+
+      tabLinks.forEach((item) => item.classList.remove("active"));
+      tabPanels.forEach((panel) => panel.classList.remove("active"));
+
+      link.classList.add("active");
+      document
+        .querySelector(link.getAttribute("href"))
+        ?.classList.add("active");
+    });
+  });
+</script>
+</html>
+

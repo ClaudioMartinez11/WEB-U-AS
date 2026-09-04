@@ -1,0 +1,716 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Fuente para meses, días, horarios, datos extra y redes */
+.month-selector,
+.date-selector,
+.month-btn,
+.date-btn,
+.time-btn,
+.tab-link,
+.nav-link,
+.appointment-instruction,
+h4 {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 1px;
+}
+
+/* Tamaños */
+.month-selector,
+.date-selector {
+    font-size: 50px;
+}
+
+.month-btn,
+.date-btn,
+
+.nav-link,
+.tab-link,
+.appointment-instruction,
+h4 {
+    font-size: 25px;
+}
+
+:root {
+    --color-fondo: #7e8c69;       /* Reseda green */
+    --color-principal: #f6b0bb;   /* Cherry blossom pink */
+    --color-secundario: #9cad8c;  /* Cambridge blue */
+    --color-terciario: #315e42;   /* Tea rose red */
+    --color-texto: #3f4938;
+    --color-blanco: #ece0da;      /* Champagne pink */
+    --color-marmol-1: #f6b0bb;
+    --color-marmol-2: #9cad8c;
+    --sombra: 0 8px 20px rgba(53, 63, 45, 0.986);
+}
+.appointment-page {
+    text-align: center;
+}
+
+/* Fondo */
+body {
+    background: var(--color-fondo);
+    color: var(--color-texto);
+}
+
+.appointment-page {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    padding: 20px 15px 40px;
+}
+.footer-nav {
+    position: relative;
+    z-index: 1;
+}
+
+.img-profile {
+    display: block;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 15px;
+    object-fit: cover;
+    border: 3px solid var(--color-blanco);
+    border-radius: 50%;
+}
+
+h2 {
+    margin-bottom: 8px;
+}
+
+h4 {
+    margin: 20px 0 15px;
+}
+
+.appointment-instruction {
+    margin: 15px 0 15px;
+    color: #efeff1;
+    font-size: 25px;
+    font-weight: 300;
+}
+
+.calendar {
+    margin-top: 30px;
+}
+
+/* Selectores desplegables */
+.month-picker,
+.date-picker {
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.month-selector,
+.date-selector {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 14px 18px;
+    border: 1px solid var(--color-principal
+);
+    border-radius: 18px;
+    color: var(--color-texto);
+    background: var(--color-blanco);
+    box-shadow: var(--sombra);
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.25s ease, transform 0.25s ease;
+}
+
+.month-selector:hover,
+.date-selector:hover {
+    background-color: #faf9ff;
+    transform: translateY(-2px);
+}
+
+/* Paneles desplegables con animación */
+.months,
+.date-picker .dates {
+    display: grid;
+    gap: 10px;
+    max-height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-15px);
+    padding: 0 14px;
+    margin-top: 0;
+    border-radius: 18px;
+    background: var(--color-blanco);
+    box-shadow: var(--sombra);
+    transition:
+        max-height 0.4s ease,
+        opacity 0.3s ease,
+        transform 0.4s ease,
+        padding 0.4s ease,
+        margin-top 0.4s ease,
+        visibility 0.4s ease;
+}
+
+.months {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.date-picker .dates {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+/* Apertura deslizando hacia abajo */
+.month-picker.open .months,
+.date-picker.open .dates {
+    max-height: 1200px;
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+    padding: 14px;
+    margin-top: 8px;
+}
+
+.month-btn {
+    width: 100%;
+    min-width: 0;
+    padding: 11px 8px;
+    border: 1px solid var(--color-borde);
+    border-radius: 16px;
+    color: var(--color-texto);
+    background-color: var(--color-blanco);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.25s ease,
+                background-color 0.25s ease,
+                border-color 0.25s ease;
+}
+
+.month-btn:hover,
+.month-btn.active,
+.date-picker .date-btn:hover,
+.date-picker .date-btn.active {
+    color: var(--color-blanco);
+    background-color: var(--color-secundario);
+    border-color: var(--color-secundario);
+    transform: scale(1.04);
+}
+
+.month-btn.past,
+.date-picker .date-btn.past {
+    color: #26152b;
+}
+
+.date-picker .date-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+/* Horarios */
+.dates,
+.schedule {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin: 25px 20px 30px;
+}
+
+.date-btn,
+.time-btn,
+.book-btn,
+.tab-link {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background: var(--color-blanco);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.date-btn,
+.time-btn {
+    min-height: 54px;
+    padding: 10px 6px;
+}
+
+.time-btn.active,
+.tab-link.active {
+    color: var(--color-blanco);
+    background-color: var(--color-principal);
+    border-color: var(--color-principal);
+    box-shadow: var(--sombra);
+}
+
+/* Reserva */
+.book-btn {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    margin: 50px auto 50px;
+    padding: 25px 45px;
+    color: var(--color-blanco);
+    background-color: var(--color-terciario);
+    border-color: var(--color-principal);
+    font-weight: 700;
+}
+
+.book-btn:hover {
+    background-color: var(--color-secundario);
+    transform: translateY(-3px);
+}
+
+/* Pestañas */
+.tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.tab-link {
+    flex: 1;
+    min-width: 120px;
+    padding: 10px 14px;
+    color: #000;
+    text-align: center;
+    text-decoration: none;
+}
+
+.tabs-content {
+    margin-top: 15px;
+    text-align: left;
+}
+
+.tab-panel {
+    display: none;
+    padding: 15px;
+    border-radius: 12px;
+    background: rgba(3, 68, 24, 0.445);
+    line-height: 1.7;
+}
+
+.tab-panel.active {
+    display: block;
+    animation: fadein 0.3s ease-in-out;
+}
+
+.tab-panel ul {
+    padding-left: 20px;
+}
+
+.tab-panel ul li span {
+    display: inline-block;
+    margin-right: 8px;
+}
+
+/* Redes sociales */
+.footer-nav {
+    position: relative;
+    z-index: 1;
+    margin-top: 30px;
+    padding: 15px;
+    background: rgba(1, 54, 21, 0.986);
+}
+
+.nav-menu {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #f8f8f8;
+    font-weight: 300;
+    text-decoration: none;
+}
+
+.nav-link i {
+    font-size: 18px;
+}
+
+.nav-link:nth-child(1) i {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.nav-link:nth-child(2) i {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.nav-link:nth-child(3) i {
+    color: var(--color-secundario);
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Computadoras */
+@media (min-width: 768px) {
+    .appointment-page {
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 45px 60px 70px;
+    }
+
+    body {
+        font-size: 18px;
+    }
+
+    .img-profile {
+        width: 150px;
+        height: 150px;
+    }
+
+    h2 {
+        font-size: 30px;
+    }
+
+    .calendar {
+        margin-top: 45px;
+    }
+
+    .month-selector,
+    .date-selector {
+        padding: 18px 22px;
+        font-size: 18px;
+    }
+
+    .months {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+    }
+
+    .date-picker .dates {
+        grid-template-columns: repeat(7, 1fr);
+        gap: 14px;
+    }
+
+    .month-btn {
+        padding: 15px 12px;
+        border-radius: 20px;
+        font-size: 16px;
+    }
+
+    .date-btn,
+    .time-btn {
+        padding: 14px;
+        font-size: 16px;
+    }
+
+    .schedule {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    }
+}
+
+/* Barras de seleccionar mes y día */
+.month-selector,
+.date-selector {
+    color: #ffffff;
+    border: none;
+    background:
+        radial-gradient(ellipse at 20% 30%, rgba(216, 137, 192, 0.35), transparent 35%),
+        radial-gradient(ellipse at 80% 70%, rgba(197, 143, 163, 0.363), transparent 30%),
+        linear-gradient(
+            135deg,
+            var(--color-marmol-1),
+            var(--color-marmol-2) 45%,
+            var(--color-marmol-1) 70%,
+            var(--color-marmol-2)
+        );
+    background-size: 160% 160%;
+    box-shadow: 0 5px 14px rgb(13, 0, 17);
+    transition: background-position .5s ease, transform .25s ease;
+}
+
+.month-selector:hover,
+.date-selector:hover {
+    background-position: 100% 100%;
+    transform: translateY(-2px);
+}
+
+/* Panel interior desplegable */
+.months,
+.date-picker .dates {
+    background:
+        radial-gradient(ellipse at 15% 20%, rgba(255,255,255,.25), transparent 35%),
+        radial-gradient(ellipse at 85% 80%, rgba(255,255,255,.2), transparent 30%),
+        linear-gradient(
+            135deg,
+            var(--color-marmol-1),
+            var(--color-marmol-2)
+        );
+}
+
+/* Botones de meses y días */
+.month-btn,
+.date-picker .date-btn {
+    background: rgba(255, 255, 255, 0.82);
+    border-color: rgba(255, 255, 255, 0.7);
+}
+
+.month-btn.active,
+.date-picker .date-btn.active {
+    color: #ffffff;
+    background:
+        linear-gradient(
+            135deg,
+            var(--color-marmol-2),
+            var(--color-marmol-1),
+            var(--color-marmol-2)
+        );
+}
+
+.month-selector,
+.date-selector {
+    position: relative;
+    justify-content: center;
+    text-align: center;
+}
+
+.month-selector span,
+.date-selector span {
+    position: absolute;
+    right: 18px;
+}
+/* Fondo base */
+body {
+    position: relative;
+    isolation: isolate;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background: #2f4214;
+}
+
+/* Nubes nebulosas suaves */
+body::before {
+    content: "";
+    position: fixed;
+    inset: -35%;
+    z-index: 0;
+    pointer-events: none;
+    border-radius: 50%;
+    opacity: 0.9;
+    filter: blur(55px);
+    mix-blend-mode: screen;
+
+    background:
+        radial-gradient(ellipse at 15% 25%, #f6b0bb 0 12%, transparent 38%),
+        radial-gradient(ellipse at 80% 20%, #ece0da 0 10%, transparent 36%),
+        radial-gradient(ellipse at 70% 75%, #9cad8c 0 13%, transparent 40%),
+        radial-gradient(ellipse at 25% 80%, #d88baa 0 12%, transparent 38%),
+        radial-gradient(ellipse at 50% 50%, #f8d5df 0 8%, transparent 35%);
+
+    animation: nebulosa-fluida 8s ease-in-out infinite alternate;
+}
+
+/* Polvo y estrellas */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.9;
+    mix-blend-mode: screen;
+
+    background-image:
+        radial-gradient(circle, #ffffff 0 1px, transparent 2px),
+        radial-gradient(circle, #ffffff 0 2px, transparent 3px),
+        radial-gradient(circle, #f6b0bb 0 1px, transparent 2px),
+        radial-gradient(circle, #ece0da 0 1px, transparent 3px);
+
+    background-size:
+        90px 100px,
+        160px 180px,
+        230px 250px,
+        310px 330px;
+
+    animation: estrellas-moviles 5s linear infinite;
+}
+
+.appointment-page,
+.footer-nav {
+    position: relative;
+    z-index: 1;
+}
+
+/* Movimiento orgánico de las nubes */
+.appointment-page,
+.footer-nav {
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes nebulosa-fluida {
+    0% {
+        transform: translate(-10%, 2%) rotate(-3deg);
+    }
+
+    50% {
+        transform: translate(0, -2%) rotate(1deg);
+    }
+
+    100% {
+        transform: translate(10%, 3%) rotate(3deg);
+    }
+}
+
+@keyframes estrellas-moviles {
+    from {
+        background-position:
+            0 0,
+            0 0,
+            0 0,
+            0 0;
+    }
+
+    to {
+        background-position:
+            180px 100px,
+            -220px 140px,
+            260px -120px,
+            -180px 90px;
+    }
+}
+
+@media (max-width: 767px) {
+    .schedule {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+        width: 100%;
+        margin: 20px 0 30px;
+    }
+
+    .time-btn {
+        width: 100%;
+        min-height: 44px;
+        padding: 8px 4px;
+        font-size: 14px !important;
+        line-height: 1.1;
+        white-space: nowrap;
+    }
+
+    .book-btn {
+        width: 100%;
+        max-width: 100%;
+        font-size: 18px;
+    }
+
+    body {
+        overflow-x: hidden;
+    }
+}
+
+@media (max-width: 767px) {
+    .date-picker.open .dates {
+        max-height: 1200px;
+        overflow: visible;
+    }
+
+    .date-picker .dates {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .date-picker .date-btn {
+        min-height: 52px;
+        font-size: 14px;
+    }
+}
+
+body::after {
+    filter: blur(1.5px);
+    opacity: 0.9;
+    mix-blend-mode: screen;
+    animation: estrellas-moviles 5s linear infinite;
+}
+
+.booking-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(20, 0, 25, 0.65);
+}
+
+.booking-modal.open {
+    display: flex;
+}
+
+.booking-box {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    padding: 28px 22px;
+    border-radius: 22px;
+    color: var(--color-texto);
+    background: var(--color-blanco);
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.35);
+}
+
+.booking-box h3 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.booking-box label {
+    display: block;
+    margin: 12px 0 6px;
+    font-weight: 600;
+}
+
+.booking-box input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--color-borde);
+    border-radius: 10px;
+    font: inherit;
+}
+
+.close-booking {
+    position: absolute;
+    top: 8px;
+    right: 14px;
+    border: 0;
+    color: var(--color-texto);
+    background: transparent;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.confirm-booking {
+    width: 100%;
+    margin-top: 22px;
+    padding: 13px;
+    border: 0;
+    border-radius: 12px;
+    color: white;
+    background: var(--color-principal);
+    font-weight: bold;
+    cursor: pointer;
+}

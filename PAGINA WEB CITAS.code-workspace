@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"name": "PAGINA WEB CITAS",
+			"path": "PAGINA WEB CITAS"
+		},
+		{
+			"name": "Sources",
+			"path": "Sources"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "PAGINA WEB CITAS"
+	}
+}
