@@ -174,10 +174,9 @@ const bookingForm = document.querySelector("#booking-form");
 const whatsappNumber = "5493834698135";
 const apiReservasUrl = "https://web-unas-tzzh.onrender.com/api/reservas";
 
-function abrirWhatsAppCita({ nombre, telefono, fecha, hora }) {
+function obtenerUrlWhatsAppCita({ nombre, telefono, fecha, hora }) {
   const mensaje = `Hola, quiero confirmar mi cita.\nNombre: ${nombre}\nTeléfono: ${telefono}\nFecha: ${fecha}\nHora: ${hora}`;
-  const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(mensaje)}`;
-  window.open(url, "_blank", "noopener,noreferrer");
+  return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(mensaje)}`;
 }
 
 async function parsearRespuestaApi(response) {
@@ -222,6 +221,7 @@ bookingForm?.addEventListener("submit", async (event) => {
   let hora = Number(match[1]);
   if (match[3].toUpperCase() === "PM" && hora !== 12) hora += 12;
   if (match[3].toUpperCase() === "AM" && hora === 12) hora = 0;
+  const whatsappWindow = window.open("about:blank", "_blank");
   try {
     const response = await fetch(apiReservasUrl, {
       method: "POST",
@@ -235,16 +235,22 @@ bookingForm?.addEventListener("submit", async (event) => {
     const horaConfirmada = `${String(hora).padStart(2, "0")}:${match[2]}`;
 
     alert("Reserva creada correctamente.");
-    abrirWhatsAppCita({
+    const whatsappUrl = obtenerUrlWhatsAppCita({
       nombre,
       telefono,
       fecha: fechaConfirmada,
       hora: horaConfirmada
     });
+    if (whatsappWindow) {
+      whatsappWindow.location.href = whatsappUrl;
+    } else {
+      window.location.href = whatsappUrl;
+    }
 
     bookingForm.reset();
     bookingModal.classList.remove("open");
   } catch (error) {
+    whatsappWindow?.close();
     alert(error.message);
   }
 });
