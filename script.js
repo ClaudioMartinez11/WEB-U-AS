@@ -193,6 +193,27 @@ async function parsearRespuestaApi(response) {
   }
 }
 
+async function crearReserva(requestBody) {
+  let ultimoError;
+
+  for (let intento = 1; intento <= 2; intento++) {
+    try {
+      return await fetch(apiReservasUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(requestBody)
+      });
+    } catch (error) {
+      ultimoError = error;
+      if (intento < 2) {
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+      }
+    }
+  }
+
+  throw new Error("No se pudo conectar con el servidor. Recarga la página e inténtalo nuevamente.", { cause: ultimoError });
+}
+
 openBooking?.addEventListener("click", () => {
     bookingModal.classList.add("open");
 });
@@ -222,11 +243,7 @@ bookingForm?.addEventListener("submit", async (event) => {
   if (match[3].toUpperCase() === "PM" && hora !== 12) hora += 12;
   if (match[3].toUpperCase() === "AM" && hora === 12) hora = 0;
   try {
-    const response = await fetch(apiReservasUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ fecha: window.selectedAppointmentDate, hora: `${String(hora).padStart(2, "0")}:${match[2]}`, nombre, telefono })
-    });
+    const response = await crearReserva({ fecha: window.selectedAppointmentDate, hora: `${String(hora).padStart(2, "0")}:${match[2]}`, nombre, telefono });
     const result = await parsearRespuestaApi(response);
     if (!response.ok) throw new Error(result.error || `No se pudo crear la reserva (HTTP ${response.status}).`);
 
@@ -245,7 +262,7 @@ bookingForm?.addEventListener("submit", async (event) => {
     bookingForm.reset();
     bookingModal.classList.remove("open");
   } catch (error) {
-    alert(error.message);
+    alert(error.message || "No se pudo crear la reserva.");
   }
 });
 
