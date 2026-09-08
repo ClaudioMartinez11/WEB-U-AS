@@ -216,21 +216,29 @@ async function crearReserva(requestBody) {
   let ultimoError;
 
   for (let intento = 1; intento <= 2; intento++) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 20000);
     try {
       return await fetch(apiReservasUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(requestBody)
+        body: JSON.stringify(requestBody),
+        signal: controller.signal
       });
     } catch (error) {
       ultimoError = error;
       if (intento < 2) {
         await new Promise((resolve) => setTimeout(resolve, 1500));
       }
+    } finally {
+      clearTimeout(timeout);
     }
   }
 
-  throw new Error("No se pudo conectar con el servidor. Recarga la página e inténtalo nuevamente.", { cause: ultimoError });
+  const mensaje = ultimoError?.name === "AbortError"
+    ? "El servidor tardó demasiado. Espera unos segundos y vuelve a intentarlo."
+    : "No se pudo conectar con el servidor. Recarga la página e inténtalo nuevamente.";
+  throw new Error(mensaje, { cause: ultimoError });
 }
 
 openBooking?.addEventListener("click", () => {
@@ -249,6 +257,8 @@ bookingModal?.addEventListener("click", (event) => {
 
 bookingForm?.addEventListener("submit", async (event) => {
     event.preventDefault();
+    const submitButton = bookingForm.querySelector("button[type=submit]");
+    if (submitButton?.disabled) return;
 
     const nombre = document.querySelector("#client-name").value.trim();
     const telefono = document.querySelector("#client-phone").value.trim();
@@ -257,6 +267,10 @@ bookingForm?.addEventListener("submit", async (event) => {
   if (!window.selectedAppointmentDate || !match) {
     alert("Selecciona una fecha y un horario válidos.");
     return;
+  }
+  if (submitButton) {
+    submitButton.disabled = true;
+    submitButton.textContent = "Guardando...";
   }
   let hora = Number(match[1]);
   if (match[3].toUpperCase() === "PM" && hora !== 12) hora += 12;
@@ -282,6 +296,11 @@ bookingForm?.addEventListener("submit", async (event) => {
     bookingModal.classList.remove("open");
   } catch (error) {
     alert(error.message || "No se pudo crear la reserva.");
+  } finally {
+    if (submitButton) {
+      submitButton.disabled = false;
+      submitButton.textContent = "Enviar solicitud";
+    }
   }
 });
 

@@ -1,11 +1,11 @@
 package com.citas.reserva;
 
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+
+import org.springframework.stereotype.Service;
 
 @Service
 public class ReservaService {
@@ -20,9 +20,7 @@ public class ReservaService {
     public synchronized Reserva crear(CrearReservaRequest request) {
         if (request.fecha().isBefore(LocalDate.now())) throw new IllegalArgumentException("La fecha no puede estar en el pasado");
         LocalTime hora = LocalTime.parse(request.hora());
-        Reserva reserva = repository.guardar(request, hora, LocalDateTime.now());
-        excelExporter.exportar(repository.listar());
-        return reserva;
+        return repository.guardar(request, hora, LocalDateTime.now());
     }
 
     public List<Reserva> listar() { return repository.listar(); }
