@@ -99,10 +99,10 @@ body {
 
 .img-profile {
     display: block;
-    width: 150px;
-    height: 150px;
+    width: 176px;
+    height: 176px;
     max-width: none;
-    margin: -15px;
+    margin: -28px;
     object-fit: cover;
 }
 
@@ -440,9 +440,9 @@ h4 {
     }
 
     .img-profile {
-        width: 186px;
-        height: 186px;
-        margin: -18px;
+        width: 220px;
+        height: 220px;
+        margin: -35px;
     }
 
     h2 {
