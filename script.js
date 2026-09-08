@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const monthPicker = document.querySelector(".month-picker");
   const dateSelector = document.querySelector(".date-selector");
   const datePicker = document.querySelector(".date-picker");
+  const scheduleButtons = [...document.querySelectorAll(".time-btn")];
 
   if (
     !monthsContainer ||
@@ -23,6 +24,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let selectedDate = new Date(today);
   const visibleMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+  function actualizarHorarios(date) {
+    const permiteHorariosNocturnos = [0, 2, 6].includes(date.getDay());
+
+    scheduleButtons.forEach((button) => {
+      const esHorarioNocturno = ["8:00 PM", "10:00 PM"].includes(button.textContent.trim());
+      button.hidden = esHorarioNocturno && !permiteHorariosNocturnos;
+    });
+
+    const horarioActivo = scheduleButtons.find((button) => button.classList.contains("active"));
+    if (horarioActivo?.hidden) {
+      horarioActivo.classList.remove("active");
+      scheduleButtons.find((button) => !button.hidden)?.classList.add("active");
+    }
+  }
 
   const monthFormatter = new Intl.DateTimeFormat("es-ES", {
     month: "short"
@@ -92,6 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
         monthPicker.classList.remove("open");
         renderMonths();
         renderDates();
+        actualizarHorarios(selectedDate);
         window.selectedAppointmentDate = dateAsIso(selectedDate);
       });
 
@@ -131,6 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         datePicker.classList.remove("open");
         renderDates();
+        actualizarHorarios(selectedDate);
         window.selectedAppointmentDate = dateAsIso(selectedDate);
       });
 
@@ -165,6 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   renderMonths();
   renderDates();
+  actualizarHorarios(selectedDate);
 });
 
 const openBooking = document.querySelector("#open-booking");
